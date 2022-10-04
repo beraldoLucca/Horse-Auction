@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const banco = require("../../../configuration/db.js")
+const banco = require("../../../configuration/db/connection")
 
 const Horse = banco.define("cavalo", {
     id:{
@@ -13,8 +13,8 @@ const Horse = banco.define("cavalo", {
         allowNull: false,
         primaryKey: false
     },
-    ra:{
-        type: Sequelize.STRING,
+    valor:{
+        type: Sequelize.FLOAT,
         allowNull: false,
         primaryKey: false
     }
