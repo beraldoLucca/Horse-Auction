@@ -9,7 +9,7 @@ class UserService {
         //PEGAR TOKEN
         validateUserData(userData);
         let user = createInitialUser(userData);
-        let createdUser = await UserRepository.save(user);
+        let createdUser = await UserRepository.create(user);
         let response = {
             status: 200,
             createdUser,
@@ -43,6 +43,27 @@ class UserService {
             return{
                 status: err.status ? err.status : 500,
                 message: err.message,
+            }
+        }
+    }
+
+    async updateUser(req){
+        try{
+            let userData = req.body;
+        //PEGAR TOKEN
+        validateUserData(userData);
+        let user = findById(userData)
+        let updatedUser = await UserRepository.update(user);
+        let response = {
+            status: 200,
+            updatedUser,
+        }
+        return response
+        }catch(err){
+            return {
+                status: err.status ? err.status : 500,
+                message: err.message,
+
             }
         }
     }

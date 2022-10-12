@@ -9,7 +9,7 @@ class HorseService {
         //PEGAR TOKEN
         validateHorseData(horseData);
         let horse = createInitialHorse(horseData);
-        let createdHorse = await HorseRepository.save(horse);
+        let createdHorse = await HorseRepository.create(horse);
         let response = {
             status: 200,
             createdHorse,
