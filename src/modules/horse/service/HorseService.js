@@ -1,116 +1,62 @@
-import HorseException from '../exception/HorseException.js'
-import HorseRepository from '../repository/HorseRepository.js';
+const express = require("express");
+const HorseModel = require("../model/Horse");
 
 class HorseService {
+  async createHorse(req, res) {
+    try {
+      const id = req.params.id;
 
-    async createHorse(req){
-        try{
-            let horseData = req.body;
-        //PEGAR TOKEN
-        validateHorseData(horseData);
-        let horse = createInitialHorse(horseData);
-        let createdHorse = await HorseRepository.create(horse);
-        let response = {
-            status: 200,
-            createdHorse,
-        }
-        return response
-        }catch(err){
-            return {
-                status: err.status ? err.status : 500,
-                message: err.message,
-
-            }
-        }
+      const Horse = await HorseModel.findById(id);
+      res.status(200).json(Horse);
+    } catch (error) {
+      return res.status(500).send(errors.message);
     }
+  }
 
+  async findById(req, res) {
+    try {
+      const id = req.params.id;
 
-    async findById(req) {
-        try{
-            const { id } = req.params;
-            this.validateInformedId(id);
-            const existingHorse = await HorseRepository.findById(id);
-            if(!existingHorse){
-                throw new HorseException(400, "The horse was not found.")
-            }
-
-            let response = {
-                status: 200,
-                existingHorse,
-            }
-            return response;
-        }catch(err){
-            return{
-                status: err.status ? err.status : 500,
-                message: err.message,
-            }
-        }
+      const horse = await HorseModel.findById(id);
+      res.status(200).json(horse);
+    } catch (error) {
+      return res.status(500).send(errors.message);
     }
+  }
 
-    async deleteHorse(req) {
-        try{
-            const { id } = req.params;
-            this.validateInformedId(id);
-            const existingHorse = await HorseRepository.deleteById(id);
-            if(!existingHorse){
-                throw new HorseException(400, "The horse was not found.")
-            }
+  async updateHorse(req, res) {
+    try {
+      const id = req.params.id;
 
-            let response = {
-                status: 200,
-                existingHorse,
-            }
-            return response;
-        }catch(err){
-            return{
-                status: err.status ? err.status : 500,
-                message: err.message,
-            }
-        }
+      const horse = await HorseModel.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+      res.status(200).json(horse);
+    } catch (error) {
+      return res.status(500).send(errors.message);
     }
+  }
 
-    async findAll() {
-        try{
-            const horses = await HorseRepository.findAll();
-            if(!horses) {
-                throw new HorseException(400, "No horses were found.")
-            }
-            let response = {
-                status: 200,
-                horses,
-              };
-            
-            return response;
+  async deleteHorse(req, res) {
+    try {
+      const id = req.params.id;
 
-        }catch(err){
-            return{
-                status: err.status ? err.status : 500,
-                message: err.message,
-            }
-        }
+      const horse = await HorseModel.findByIdAndRemove(id);
+      res.status(200).json(horse);
+    } catch (error) {
+      return res.status(500).send(errors.message);
     }
+  }
 
-    validateInformedId(id){
-        if(!id){
-            throw new HorseException(400, "The horse ID must be informed.");
-        }
-    }
+  async findAll(req, res) {
+    try {
+      const horse = await HorseModel.find({});
 
-    createInitialHorse(horseData){
-        return {
-            name: horseData.name,
-            brand: horseData.brand,
-            year: horseData.year,
-            value: horseData.value,
-            createdAt: new Date(),
-        }
+      res.status(200).json(horse);
+    } catch (error) {
+      return res.status(500).send(errors.message);
     }
-
-    validateHorseData(data){
-        if(!data){
-            throw new HorseException(400, 'The horse data is not informed')
-        }
-    }
+  }
 }
 
-export default new HorseService();
+export { HorseService };

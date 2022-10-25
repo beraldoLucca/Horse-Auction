@@ -1,22 +1,17 @@
-const Sequelize = require("sequelize");
+const mongoose = require("mongoose");
 
-const sequelize = new Sequelize("sql10519389", "sql10519389",
- "MwJU146mWa",{
-    host: "sql10.freemysqlhosting.net",
-    dialect: "mysql",
-    port: 3306,
-    logging: false
-});
-/*
-(async function() {
-    //console.log("função chamada")
-    try{
-        await sequelize.authenticate();
-        console.log("conectou com sucesso")
-    }catch(error){
-        console.log(error);
+const connectToDatabase = async () => {
+  await mongoose.connect(
+    `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@horseauction.0bfuoh7.mongodb.net/database?retryWrites=true&w=majority`,
+    (error) => {
+      if (error) {
+        return console.log(
+          "Ocorreu um erro ao se conetcar com o banco de dados: ",
+          error
+        );
+      }
+      return console.log("Conexão ao banco de dados realizada com sucesso!");
     }
-    
-})();
-*/
-module.exports = sequelize;
+  );
+};
+module.exports = connectToDatabase;

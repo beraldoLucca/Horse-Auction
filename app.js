@@ -1,19 +1,8 @@
-const express = require("express");
-const app = express();
+const dotenv = require("dotenv");
+const connectToDatabase = require("./src/database/connect");
 
-const porta = 8889;
+dotenv.config();
 
-app.get("/api/status", (req,res)=>{
-    return res.status(200).json({
-        service: "Bojack Horseman",
-        status: "up",
-        httpStatus: 200,
-    })
-})
+connectToDatabase();
 
-app.use(horses);
-
-
-app.listen(porta, ()=>{
-    console.log(`servidor rodando na porta ${porta}`);
-});
+require("./modules/express");

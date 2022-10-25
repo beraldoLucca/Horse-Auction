@@ -1,23 +1,32 @@
-const Sequelize = require("sequelize");
-const banco = require("../../../configuration/db/connection")
-
-const Horse = banco.define("cavalo", {
-    id:{
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-    },
-    nome:{
-        type: Sequelize.STRING,
-        allowNull: false,
-        primaryKey: false
-    },
-    valor:{
-        type: Sequelize.FLOAT,
-        allowNull: false,
-        primaryKey: false
-    }
+const horseSchema = new mongoose.Schema({
+  id: {
+    type: Number,
+    autoIncrement: true,
+    required: true,
+    primaryKey: true,
+  },
+  nome: {
+    type: String,
+    required: true,
+  },
+  cpf: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  data_nascimento: {
+    type: String,
+    required: true,
+  },
+  status: {
+    type: String,
+    required: true,
+  },
 });
 
-module.exports = Horse;
+const HorseModel = mongoose.model("Horse", horseSchema);
+
+module.exports = HorseModel;
