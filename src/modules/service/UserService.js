@@ -1,4 +1,3 @@
-const express = require("express");
 const UserModel = require("../model/User");
 
 class UserService {
@@ -59,4 +58,4 @@ class UserService {
   }
 }
 
-module.exports = UserService;
+export default UserService;
