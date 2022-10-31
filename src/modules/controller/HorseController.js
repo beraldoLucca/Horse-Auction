@@ -1,24 +1,59 @@
-import HorseService from "../service/HorseService";
+const HorseModel = require("../model/Horse");
 
 class HorseController {
-  async createUser(req, res) {
-    return await HorseService.createUser(req, res);
+  async createHorse(req, res) {
+    try {
+      const horse = await HorseModel.create(req.body);
+      res.status(201).json(horse);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
   }
 
   async findById(req, res) {
-    return await HorseService.findById(req, res);
+    try {
+      const id = req.params.id;
+
+      const horse = await HorseModel.findById(id);
+      res.status(200).json(horse);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
   }
+
+  async updateHorse(req, res) {
+    try {
+      const id = req.params.id;
+
+      const horse = await HorseModel.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+      res.status(200).json(horse);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+  }
+
+  async deleteHorse(req, res) {
+    try {
+      const id = req.params.id;
+
+      const horse = await HorseModel.findByIdAndRemove(id);
+      res.status(200).json(horse);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+  }
+
   async findAll(req, res) {
-    return await HorseService.findAll(req, res);
-  }
+    try {
+      const horse = await HorseModel.find({});
 
-  async deleteUser(req, res) {
-    return await HorseService.deleteUser(req, res);
-  }
-
-  async updateUser(req, res) {
-    return await HorseService.updateUser(req, res);
+      res.status(200).json(horse);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
   }
 }
 
-export default HorseController;
+module.exports = new HorseController();

@@ -1,20 +1,49 @@
-import UserService from "../service/UserService";
+// import UserService from "../service/UserService";
 const UserModel = require("../model/User");
 
 class UserController {
   async createUser(req, res) {
-    return await UserService.createUser(req, res);
+    try {
+      const user = await UserModel.create(req.body);
+      res.status(201).json(user);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
   }
 
   async findById(req, res) {
-    return await UserService.findById(req, res);
+    try {
+      const id = req.params.id;
+
+      const user = await UserModel.findById(id);
+      res.status(200).json(user);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
   }
-  async findAll(req, res) {
-    return await UserService.findAll(req, res);
+
+  async updateUser(req, res) {
+    try {
+      const id = req.params.id;
+
+      const user = await UserModel.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+      res.status(200).json(user);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
   }
 
   async deleteUser(req, res) {
-    return await UserService.deleteUser(req, res);
+    try {
+      const id = req.params.id;
+
+      const user = await UserModel.findByIdAndRemove(id);
+      res.status(200).json(user);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
   }
 
   async findAll(req, res) {
@@ -23,9 +52,9 @@ class UserController {
 
       res.status(200).json(users);
     } catch (error) {
-      return res.status(500).send(errors.message);
+      return res.status(500).send(error.message);
     }
   }
 }
 
-export default UserController;
+module.exports = new UserController();

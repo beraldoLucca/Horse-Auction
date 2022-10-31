@@ -1,8 +1,11 @@
-const app = require("../../../index");
+const router = require("express").Router();
 
-import AuctionController from "../controller/AuctionController.js";
+const AuctionController = require("../controller/AuctionController.js");
 
-app.get("/auction/:id", AuctionController.findById);
-app.post("/auction/create", AuctionController.createAuction);
-app.delete("/auction/:id", AuctionController.deleteAuction);
-app.get("/auctions", AuctionController.findAll);
+router.get("/auction/:id", AuctionController.findById);
+router.post("/auction/create", AuctionController.createAuction);
+router.delete("/auction/delete/:id", AuctionController.deleteAuction);
+router.post("/auction/update/:id", AuctionController.updateAuction);
+router.get("/auction", AuctionController.findAll);
+
+module.exports = router;

@@ -4,7 +4,6 @@ const horseSchema = new mongoose.Schema({
   id: {
     type: Number,
     autoIncrement: true,
-    required: true,
     primaryKey: true,
   },
   name: {

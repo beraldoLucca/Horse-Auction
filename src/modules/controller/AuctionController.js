@@ -1,24 +1,59 @@
-import AuctionService from "../service/AuctionService";
+const AuctionModel = require("../model/Auction");
 
 class AuctionController {
-  async createUser(req, res) {
-    return await AuctionService.createUser(req, res);
+  async createAuction(req, res) {
+    try {
+      const auction = await AuctionModel.create(req.body);
+      res.status(201).json(auction);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
   }
 
   async findById(req, res) {
-    return await AuctionService.findById(req, res);
+    try {
+      const id = req.params.id;
+
+      const auction = await AuctionModel.findById(id);
+      res.status(200).json(auction);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
   }
+
+  async updateAuction(req, res) {
+    try {
+      const id = req.params.id;
+
+      const auction = await AuctionModel.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+      res.status(200).json(auction);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+  }
+
+  async deleteAuction(req, res) {
+    try {
+      const id = req.params.id;
+
+      const auction = await AuctionModel.findByIdAndRemove(id);
+      res.status(200).json(auction);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+  }
+
   async findAll(req, res) {
-    return await AuctionService.findAll(req, res);
-  }
+    try {
+      const auction = await AuctionModel.find({});
 
-  async deleteUser(req, res) {
-    return await AuctionService.deleteUser(req, res);
-  }
-
-  async updateUser(req, res) {
-    return await AuctionService.updateUser(req, res);
+      res.status(200).json(auction);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
   }
 }
 
-export default AuctionController;
+module.exports = new AuctionController();

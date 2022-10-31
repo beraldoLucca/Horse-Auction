@@ -1,8 +1,11 @@
-const app = require("../../../index");
+const router = require("express").Router();
 
-import HorseController from "../controller/HorseController.js";
+const HorseController = require("../controller/HorseController.js");
 
-app.get("/horse/:id", HorseController.findById);
-app.post("/horse/create", HorseController.createHorse);
-app.delete("/horse/:id", HorseController.deleteHorse);
-app.get("/horses", HorseController.findAll);
+router.get("/horse/:id", HorseController.findById);
+router.post("/horse/create", HorseController.createHorse);
+router.delete("/horse/delete/:id", HorseController.deleteHorse);
+router.post("/horse/update/:id", HorseController.updateHorse);
+router.get("/horse", HorseController.findAll);
+
+module.exports = router;
