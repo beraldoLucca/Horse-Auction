@@ -33,3 +33,6 @@ connectToDatabase();
 app.get("/", (req, res) => {
   express.json({});
 });
+
+const port = 3000;
+app.listen(port, () => console.log(`Rodando com Express na porta ${port}!`));
