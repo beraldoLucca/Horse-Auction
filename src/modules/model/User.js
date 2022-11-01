@@ -4,10 +4,9 @@ const userSchema = new mongoose.Schema({
   id: {
     type: Number,
     autoIncrement: true,
-    required: true,
     primaryKey: true,
   },
-  nome: {
+  name: {
     type: String,
     required: true,
   },
@@ -19,7 +18,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  data_nascimento: {
+  born_date: {
     type: String,
     required: true,
   },
@@ -27,7 +26,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  senha: {
+  password: {
     type: String,
     required: true,
   },
