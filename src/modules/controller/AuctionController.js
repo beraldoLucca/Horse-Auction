@@ -24,7 +24,8 @@ class AuctionController {
   async updateAuction(req, res) {
     try {
       const id = req.params.id;
-
+      const value = req.params.auction_value;
+      this.validateAndCompareActionValue(id, value);
       const auction = await AuctionModel.findByIdAndUpdate(id, req.body, {
         new: true,
       });
@@ -52,6 +53,13 @@ class AuctionController {
       res.status(200).json(auction);
     } catch (error) {
       return res.status(500).send(error.message);
+    }
+  }
+
+  validateAndCompareActionValue(id, value){
+    const auction = AuctionModel.findById(id);
+    if(value < auction.params.auction_value){
+      throw new Error("O valor do lance precisa ser maior do que o valor atual!");
     }
   }
 }
