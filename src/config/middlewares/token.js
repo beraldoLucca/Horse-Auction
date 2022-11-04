@@ -1,8 +1,7 @@
-import jwt from "jsonwebtoken";
-import {promisify} from "util"
-import * as secrets from '../secrets.js'
+const jwt = require("jsonwebtoken");
+const {promisify} = require("util");
 
-export default async(req, res, next) => {
+async function CheckToken(req, res, next) {
     try{
         let { authorization } = req.headers;
 
@@ -15,7 +14,7 @@ export default async(req, res, next) => {
         }else{
             accessToken = authorization;
         }
-        const decoded = await promisify(jwt.verify)(accessToken, secrets.API_SECRET);
+        const decoded = await promisify(jwt.verify)(accessToken, "pw4");
         req.authUser = decoded.authUser;
         return next();
 
@@ -24,3 +23,5 @@ export default async(req, res, next) => {
         return res.status(status).json({status, message: err.message});
     }
 }
+
+module.exports = CheckToken;

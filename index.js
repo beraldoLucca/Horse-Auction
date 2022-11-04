@@ -27,6 +27,7 @@ const middleware = require("i18next-http-middleware");
 const userRoutes = require("./src/modules/routes/UserRoutes");
 const horseRoutes = require("./src/modules/routes/HorseRoutes");
 const auctionRoutes = require("./src/modules/routes/AuctionRoutes");
+const checkToken = require("./src/config/middlewares/token");
 
 i18next
   .use(Backend)
@@ -47,6 +48,8 @@ app.use(horseRoutes);
 app.use(auctionRoutes);
 
 connectToDatabase();
+
+app.use(checkToken);
 
 app.get("/", (req, res) => {
   express.json({});
